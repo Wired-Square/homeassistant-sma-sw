@@ -1,0 +1,23 @@
+{
+  "title": "SMA Speedwire Query",
+  "config": {
+    "title": "SMA Speedwire Query",
+    "step": {
+      "confirm": {
+        "title": "SMA Speedwire Query",
+        "description": "Do you want to set up SMA Speedwire Query?"
+      },
+      "user": {
+        "title": "Configure SunnyBoy Inverter",
+        "data": {
+          "ip_address": "IP Address",
+          "serial": "Inverter Serial Number",
+          "port": "Speedwire Port",
+          "user_password": "user password"
+        }
+      }
+    },
+    "abort": {
+    }
+  }
+}

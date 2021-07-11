@@ -1,0 +1,15 @@
+{
+  "state": {
+    "smasw__inverter_status": {
+      "fault": "Fault",
+      "off": "Off",
+      "ok": "Ok",
+      "warning": "Warning"
+    },
+    "smasw__grid_relay_status": {
+      "connected": "Connected",
+      "disconnected": "Disconnected",
+      "status_not_available": "Status Not Available"
+    }
+  }
+}
