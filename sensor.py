@@ -7,7 +7,13 @@ import async_timeout
 from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_FRIENDLY_NAME,
-    CONF_UNIT_OF_MEASUREMENT
+    CONF_UNIT_OF_MEASUREMENT,
+    DEVICE_CLASS_ENERGY
+)
+
+from homeassistant.components.sensor import (
+    STATE_CLASS_MEASUREMENT,
+    STATE_CLASS_TOTAL_INCREASING,
 )
 
 from homeassistant.core import HomeAssistant
@@ -36,22 +42,25 @@ _LOGGER = logging.getLogger(__name__)
 SENSOR_TYPES = {
     "total": {
         CONF_FRIENDLY_NAME: "Energy Production Total",
-        CONF_DEVICE_CLASS: "energy",
+        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "Wh"
+        CONF_UNIT_OF_MEASUREMENT: "Wh",
+        "state_class": STATE_CLASS_TOTAL_INCREASING
     },
     "today": {
         CONF_FRIENDLY_NAME: "Energy Production Daily",
-        CONF_DEVICE_CLASS: "energy",
+        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "Wh"
-    },
+        CONF_UNIT_OF_MEASUREMENT: "Wh",
+        "state_class": STATE_CLASS_TOTAL_INCREASING
+},
     "spot_ac_power": {
         CONF_FRIENDLY_NAME: "AC Power",
         CONF_DEVICE_CLASS: "power",
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "W"
-    },
+        CONF_UNIT_OF_MEASUREMENT: "W",
+        "state_class": STATE_CLASS_MEASUREMENT
+},
     "spot_ac_voltage": {
         CONF_FRIENDLY_NAME: "AC Voltage",
         CONF_DEVICE_CLASS: "voltage",
@@ -70,15 +79,17 @@ SENSOR_TYPES = {
     },
     "spot_dc_power1": {
         CONF_FRIENDLY_NAME: "DC Power 1",
-        CONF_DEVICE_CLASS: "power",
+        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "W"
+        CONF_UNIT_OF_MEASUREMENT: "W",
+        "state_class": STATE_CLASS_MEASUREMENT
     },
     "spot_dc_power2": {
         CONF_FRIENDLY_NAME: "DC Power 2",
-        CONF_DEVICE_CLASS: "power",
+        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "W"
+        CONF_UNIT_OF_MEASUREMENT: "W",
+        "state_class": STATE_CLASS_MEASUREMENT
     },
     "spot_dc_voltage1": {
         CONF_FRIENDLY_NAME: "DC Voltage 1",
@@ -185,6 +196,7 @@ class SMASWSensor(CoordinatorEntity, Entity):
         self._inverter = inverter
         self._entity_attribute = entity_attribute
         self._unit_of_measure = entity_detail[CONF_UNIT_OF_MEASUREMENT]
+        self._state_class = entity_detail.get("state_class", None)
         self._round = entity_detail.get(CONF_ROUND, None)
         self._format = entity_detail.get(CONF_FORMAT, None)
         self._scale = entity_detail[CONF_SCALE]
@@ -210,6 +222,10 @@ class SMASWSensor(CoordinatorEntity, Entity):
     @property
     def device_class(self):
         return self._device_class
+
+    @property
+    def state_class(self):
+        return self._state_class
 
     @property
     def device_state_attributes(self):
