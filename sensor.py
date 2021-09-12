@@ -8,7 +8,8 @@ from homeassistant.const import (
     CONF_DEVICE_CLASS,
     CONF_FRIENDLY_NAME,
     CONF_UNIT_OF_MEASUREMENT,
-    DEVICE_CLASS_ENERGY
+    DEVICE_CLASS_ENERGY,
+    ENERGY_KILO_WATT_HOUR,
 )
 
 from homeassistant.components.sensor import (
@@ -43,15 +44,15 @@ SENSOR_TYPES = {
     "total": {
         CONF_FRIENDLY_NAME: "Energy Production Total",
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
-        CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "Wh",
+        CONF_SCALE: 0.001,
+        CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
         "state_class": STATE_CLASS_TOTAL_INCREASING
     },
     "today": {
         CONF_FRIENDLY_NAME: "Energy Production Daily",
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
-        CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "Wh",
+        CONF_SCALE: 0.001,
+        CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
         "state_class": STATE_CLASS_TOTAL_INCREASING
 },
     "spot_ac_power": {
