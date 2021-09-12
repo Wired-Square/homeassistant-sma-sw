@@ -13,6 +13,7 @@ from homeassistant.const import (
 )
 
 from homeassistant.components.sensor import (
+    ATTR_STATE_CLASS,
     STATE_CLASS_MEASUREMENT,
     STATE_CLASS_TOTAL_INCREASING,
 )
@@ -46,21 +47,21 @@ SENSOR_TYPES = {
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 0.001,
         CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
-        "state_class": STATE_CLASS_TOTAL_INCREASING
+        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING
     },
     "today": {
         CONF_FRIENDLY_NAME: "Energy Production Daily",
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 0.001,
         CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
-        "state_class": STATE_CLASS_TOTAL_INCREASING
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
 },
     "spot_ac_power": {
         CONF_FRIENDLY_NAME: "AC Power",
         CONF_DEVICE_CLASS: "power",
         CONF_SCALE: 1,
         CONF_UNIT_OF_MEASUREMENT: "W",
-        "state_class": STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
 },
     "spot_ac_voltage": {
         CONF_FRIENDLY_NAME: "AC Voltage",
@@ -68,7 +69,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.01,
         CONF_UNIT_OF_MEASUREMENT: "V",
         CONF_ROUND: 2,
-        CONF_FORMAT: ".02f"
+        CONF_FORMAT: ".02f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_ac_current": {
         CONF_FRIENDLY_NAME: "AC Current",
@@ -76,21 +78,22 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.001,
         CONF_UNIT_OF_MEASUREMENT: "A",
         CONF_ROUND: 3,
-        CONF_FORMAT: ".03f"
+        CONF_FORMAT: ".03f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_power1": {
         CONF_FRIENDLY_NAME: "DC Power 1",
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 1,
         CONF_UNIT_OF_MEASUREMENT: "W",
-        "state_class": STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_power2": {
         CONF_FRIENDLY_NAME: "DC Power 2",
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 1,
         CONF_UNIT_OF_MEASUREMENT: "W",
-        "state_class": STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_voltage1": {
         CONF_FRIENDLY_NAME: "DC Voltage 1",
@@ -98,7 +101,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.01,
         CONF_UNIT_OF_MEASUREMENT: "V",
         CONF_ROUND: 2,
-        CONF_FORMAT: ".02f"
+        CONF_FORMAT: ".02f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_voltage2": {
         CONF_FRIENDLY_NAME: "DC Voltage 2",
@@ -106,7 +110,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.01,
         CONF_UNIT_OF_MEASUREMENT: "V",
         CONF_ROUND: 2,
-        CONF_FORMAT: ".02f"
+        CONF_FORMAT: ".02f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_current1": {
         CONF_FRIENDLY_NAME: "DC Current 1",
@@ -114,7 +119,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.001,
         CONF_UNIT_OF_MEASUREMENT: "A",
         CONF_ROUND: 3,
-        CONF_FORMAT: ".03f"
+        CONF_FORMAT: ".03f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_current2": {
         CONF_FRIENDLY_NAME: "DC Current 2",
@@ -122,7 +128,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.001,
         CONF_UNIT_OF_MEASUREMENT: "A",
         CONF_ROUND: 3,
-        CONF_FORMAT: ".03f"
+        CONF_FORMAT: ".03f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "grid_frequency": {
         CONF_FRIENDLY_NAME: "Grid Frequency",
@@ -130,7 +137,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.01,
         CONF_UNIT_OF_MEASUREMENT: "Hz",
         CONF_ROUND: 2,
-        CONF_FORMAT: ".02f"
+        CONF_FORMAT: ".02f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "inverter_status": {
         CONF_FRIENDLY_NAME: "Inverter Status",
@@ -150,7 +158,8 @@ SENSOR_TYPES = {
         CONF_SCALE: 0.01,
         CONF_UNIT_OF_MEASUREMENT: "°C",
         CONF_ROUND: 2,
-        CONF_FORMAT: ".02f"
+        CONF_FORMAT: ".02f",
+        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     }
 }
 
@@ -197,7 +206,7 @@ class SMASWSensor(CoordinatorEntity, Entity):
         self._inverter = inverter
         self._entity_attribute = entity_attribute
         self._unit_of_measure = entity_detail[CONF_UNIT_OF_MEASUREMENT]
-        self._state_class = entity_detail.get("state_class", None)
+        self._state_class = entity_detail.get(ATTR_STATE_CLASS, None)
         self._round = entity_detail.get(CONF_ROUND, None)
         self._format = entity_detail.get(CONF_FORMAT, None)
         self._scale = entity_detail[CONF_SCALE]
