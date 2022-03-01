@@ -5,7 +5,7 @@
   "documentation": "https://github.com/Wired-Square/homeassistant-sma-sw",
   "version": "0.0.1",
   "requirements": [
-    "sma_query_sw"
+    "sma-query-sw"
   ],
   "ssdp": [],
   "zeroconf": [],
