@@ -11,6 +11,7 @@ from .const import (
     DOMAIN,
     CONF_IP_ADDRESS,
     CONF_INVERTER_SERIAL,
+    CONF_NAME_ID,
     CONF_PASSWORD,
     CONF_PORT
 )
@@ -48,6 +49,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     inverter[CONF_IP_ADDRESS] = inverter_config[CONF_IP_ADDRESS]
     inverter[CONF_PORT] = inverter_config[CONF_PORT]
     inverter[CONF_INVERTER_SERIAL] = inverter_config[CONF_INVERTER_SERIAL]
+    inverter[CONF_NAME_ID] = inverter_config[CONF_NAME_ID]
     inverter[CONF_PASSWORD] = inverter_config[CONF_PASSWORD]
 
     on_connection_lost = hass.loop.create_future()

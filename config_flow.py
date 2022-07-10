@@ -11,6 +11,7 @@ from .const import (
     DOMAIN,
     CONF_IP_ADDRESS,
     CONF_INVERTER_SERIAL,
+    CONF_NAME_ID,
     CONF_PASSWORD,
     CONF_PORT
 )
@@ -37,6 +38,7 @@ class CANSwitchFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
             self.ip_address = user_input[CONF_IP_ADDRESS]
             self.serial_number = user_input[CONF_INVERTER_SERIAL]
+            self.name_id = user_input[CONF_NAME_ID]
             self.password = user_input[CONF_PASSWORD]
             self.port = user_input[CONF_PORT]
 
@@ -44,6 +46,7 @@ class CANSwitchFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 title=self.ip_address, data={
                     CONF_IP_ADDRESS: self.ip_address,
                     CONF_INVERTER_SERIAL: self.serial_number,
+                    CONF_NAME_ID: self.name_id,
                     CONF_PASSWORD: self.password,
                     CONF_PORT: self.port
                 }
@@ -55,7 +58,8 @@ class CANSwitchFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 {
                     vol.Required(CONF_IP_ADDRESS): cv.string,
                     vol.Required(CONF_INVERTER_SERIAL): cv.positive_int,
-                    vol.Required(CONF_PASSWORD): cv.string,
+                    vol.Required(CONF_NAME_ID, default="sma"): cv.string,
+                    vol.Required(CONF_PASSWORD, default="0000"): cv.string,
                     vol.Optional(CONF_PORT, default=9522): cv.positive_int
                 }
             ),
