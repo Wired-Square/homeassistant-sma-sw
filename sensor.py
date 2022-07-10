@@ -9,12 +9,18 @@ from homeassistant.const import (
     CONF_FRIENDLY_NAME,
     CONF_UNIT_OF_MEASUREMENT,
     DEVICE_CLASS_ENERGY,
+    DEVICE_CLASS_POWER,
     ENERGY_KILO_WATT_HOUR,
+    POWER_WATT
 )
 
 from homeassistant.components.sensor import (
+    SensorEntity,
+    SensorStateClass,
+    SensorDeviceClass,
     ATTR_STATE_CLASS,
     STATE_CLASS_MEASUREMENT,
+    STATE_CLASS_TOTAL,
     STATE_CLASS_TOTAL_INCREASING,
 )
 
@@ -30,6 +36,7 @@ from .const import (
     DOMAIN,
     CONF_IP_ADDRESS,
     CONF_INVERTER_SERIAL,
+    CONF_NAME_ID,
     CONF_INVERTER_DATA,
     CONF_SCALE,
     CONF_ROUND,
@@ -54,13 +61,13 @@ SENSOR_TYPES = {
         CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_SCALE: 0.001,
         CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING
 },
     "spot_ac_power": {
         CONF_FRIENDLY_NAME: "AC Power",
-        CONF_DEVICE_CLASS: "power",
+        CONF_DEVICE_CLASS: DEVICE_CLASS_POWER,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "W",
+        CONF_UNIT_OF_MEASUREMENT: POWER_WATT,
         ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
 },
     "spot_ac_voltage": {
@@ -83,16 +90,16 @@ SENSOR_TYPES = {
     },
     "spot_dc_power1": {
         CONF_FRIENDLY_NAME: "DC Power 1",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_DEVICE_CLASS: DEVICE_CLASS_POWER,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "W",
+        CONF_UNIT_OF_MEASUREMENT: POWER_WATT,
         ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_power2": {
         CONF_FRIENDLY_NAME: "DC Power 2",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_DEVICE_CLASS: DEVICE_CLASS_POWER,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: "W",
+        CONF_UNIT_OF_MEASUREMENT: POWER_WATT,
         ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
     },
     "spot_dc_voltage1": {
@@ -144,13 +151,15 @@ SENSOR_TYPES = {
         CONF_FRIENDLY_NAME: "Inverter Status",
         CONF_DEVICE_CLASS: f"{DOMAIN}__inverter_status",
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: ""
+        CONF_UNIT_OF_MEASUREMENT: "",
+        ATTR_STATE_CLASS:  None
     },
     "grid_relay_status": {
         CONF_FRIENDLY_NAME: "Grid Relay Status",
         CONF_DEVICE_CLASS: f"{DOMAIN}__grid_relay_status",
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: ""
+        CONF_UNIT_OF_MEASUREMENT: "",
+        ATTR_STATE_CLASS:  None
     },
     "inverter_temperature": {
         CONF_FRIENDLY_NAME: "Temperature",
@@ -180,11 +189,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         update_method=async_update_data,
         update_interval=timedelta(seconds=30),
     )
+    
+    for (entity_attribute, entity_detail) in SENSOR_TYPES.items():
+        inverter.setdefault("data", {})[entity_attribute] = 0
 
     await coordinator.async_config_entry_first_refresh()
 
     for (entity_attribute, entity_detail) in SENSOR_TYPES.items():
-        inverter.setdefault("data", {})[entity_attribute] = 0
         sensors.append(SMASWSensor(coordinator, inverter, entity_attribute, entity_detail))
 
     async_add_entities(sensors, True)
@@ -197,7 +208,7 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     return True
 
 
-class SMASWSensor(CoordinatorEntity, Entity):
+class SMASWSensor(CoordinatorEntity, SensorEntity):
     """Implementation of a SMA Speedwire Sensor."""
     def __init__(self, coordinator, inverter, entity_attribute, entity_detail):
         """Initialize the sensor."""
@@ -206,12 +217,12 @@ class SMASWSensor(CoordinatorEntity, Entity):
         self._inverter = inverter
         self._entity_attribute = entity_attribute
         self._unit_of_measure = entity_detail[CONF_UNIT_OF_MEASUREMENT]
-        self._state_class = entity_detail.get(ATTR_STATE_CLASS, None)
+        self._state_class = entity_detail[ATTR_STATE_CLASS]
         self._round = entity_detail.get(CONF_ROUND, None)
         self._format = entity_detail.get(CONF_FORMAT, None)
         self._scale = entity_detail[CONF_SCALE]
-        self._name = f"""{inverter[CONF_INVERTER_SERIAL]} {entity_detail[CONF_FRIENDLY_NAME]}"""
-        self._unique_id = f"""{inverter[CONF_INVERTER_SERIAL]} {entity_detail[CONF_FRIENDLY_NAME]}"""
+        self._name = f"""{inverter[CONF_NAME_ID]} {entity_detail[CONF_FRIENDLY_NAME]}"""
+        self._unique_id = f"""{inverter[CONF_NAME_ID]} {entity_detail[CONF_FRIENDLY_NAME]}"""
         self._device_class = entity_detail[CONF_DEVICE_CLASS]
         self._serial_number = inverter[CONF_INVERTER_SERIAL]
         self._ip_address = inverter[CONF_IP_ADDRESS]
@@ -251,6 +262,15 @@ class SMASWSensor(CoordinatorEntity, Entity):
     def name(self):
         """Return the name of the entity."""
         return self._name
+        
+    @property
+    def icon(self):
+        """Icon to use in the frontend, if any."""
+        return "mdi:flash"
+        
+    @property
+    def available(self):
+        return self._inverter[CONF_INVERTER_DATA].get("total", 0) > 0
 
     @property
     def state(self):

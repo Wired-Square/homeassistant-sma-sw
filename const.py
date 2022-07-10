@@ -7,6 +7,7 @@ DEFAULT_NAME = "SunnyBoy Inverter Speedwire"
 
 CONF_IP_ADDRESS = "ip_address"
 CONF_INVERTER_SERIAL = "serial"
+CONF_NAME_ID = "name_id"
 CONF_PORT = "port"
 CONF_PASSWORD = "user_password"
 CONF_QUERY_LIST = "command_query_list"

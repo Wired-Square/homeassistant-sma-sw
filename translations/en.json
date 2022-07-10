@@ -12,6 +12,7 @@
         "data": {
           "ip_address": "IP Address",
           "serial": "Inverter Serial Number",
+          "ID Name": "ID Name",
           "port": "Speedwire Port",
           "user_password": "user password"
         }
