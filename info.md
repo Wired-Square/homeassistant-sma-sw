@@ -28,4 +28,5 @@ The process should be repeated for each inverter on the network. Subsequent inte
 
 This project was generated from [@Wired-Square](https://github.com/Wired-Square)'s [Home Assistant Custom SMA Speedwire code](https://github.com/Wired-Square/homeassistant-sma-sw) repository.
 
-Full credits below to [@Wired-Square](https://github.com/Wired-Square).
+Full credits to [@Wired-Square](https://github.com/Wired-Square).
+and [@garthberry](https://github.com/garthberry).

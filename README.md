@@ -15,7 +15,8 @@ A Home Assistant Integration for querying SMA SunnyBoy Inverters using the Speed
 ## Installation
 
 ### Dependencies
-This integration relies on the library at https://github.com/Wired-Square/sma-query 
+
+This integration relies on the library [here](https://github.com/Wired-Square/sma-query )
 
 The sma-query library should first be installed into Home Assistants virtual environment.
 
@@ -25,7 +26,7 @@ This integration has been tested against Home Assistant 2021.5.0.
 
 The integration can be installed by cloning this repository into the Home Assistant ```custom_components``` directory.
 
-Assuming Home Assistant is running on a Raspberry Pi using the installation guide at https://www.home-assistant.io/installation/raspberrypi for the Home Assistant Core version, the following commands could be used to install the integration. Alter as needed to suit your installation.
+Assuming Home Assistant is running on a Raspberry Pi using the installation guide [here](https://www.home-assistant.io/installation/raspberrypi) for the Home Assistant Core version, the following commands could be used to install the integration. Alter as needed to suit your installation.
 
 ```bash
 sudo su - homeassistant
