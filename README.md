@@ -26,6 +26,7 @@ This integration has been tested against Home Assistant 2021.5.0.
 The integration can be installed by cloning this repository into the Home Assistant ```custom_components``` directory.
 
 Assuming Home Assistant is running on a Raspberry Pi using the installation guide at https://www.home-assistant.io/installation/raspberrypi for the Home Assistant Core version, the following commands could be used to install the integration. Alter as needed to suit your installation.
+
 ```bash
 sudo su - homeassistant
 cd /srv/homeassistant/data
@@ -43,5 +44,3 @@ Search for sma, an integration with the name "SunnyBoy Inverter Speedwire" will 
 You will be asked a number of questions, the IP address and user password of the inverter will be needed, all other settings can use defaults.
 
 The process should be repeated for each inverter on the network. Subsequent integrations will be grouped under the main integration by IP address.
-
-
