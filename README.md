@@ -20,7 +20,15 @@ This integration relies on the library [here](https://github.com/Wired-Square/sm
 
 The sma-query library should first be installed into Home Assistants virtual environment.
 
-### Home Assistant
+### HACS installation
+
+- Add this custom repository to HACS
+- Install integration in HACS
+- Go to Home Assistant Integrations
+- Search for 'Sunnyboy Inverter Speedwire'
+- Click install and fill in the required values
+
+### Manual installation
 
 This integration has been tested against Home Assistant 2021.5.0.
 

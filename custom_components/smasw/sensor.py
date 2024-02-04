@@ -5,13 +5,11 @@ import logging
 import async_timeout
 
 from homeassistant.const import (
+    UnitOfEnergy,
+    UnitOfPower,
     CONF_DEVICE_CLASS,
     CONF_FRIENDLY_NAME,
     CONF_UNIT_OF_MEASUREMENT,
-    DEVICE_CLASS_ENERGY,
-    DEVICE_CLASS_POWER,
-    ENERGY_KILO_WATT_HOUR,
-    POWER_WATT
 )
 
 from homeassistant.components.sensor import (
@@ -19,9 +17,6 @@ from homeassistant.components.sensor import (
     SensorStateClass,
     SensorDeviceClass,
     ATTR_STATE_CLASS,
-    STATE_CLASS_MEASUREMENT,
-    STATE_CLASS_TOTAL,
-    STATE_CLASS_TOTAL_INCREASING,
 )
 
 from homeassistant.core import HomeAssistant
@@ -51,24 +46,24 @@ _LOGGER = logging.getLogger(__name__)
 SENSOR_TYPES = {
     "total": {
         CONF_FRIENDLY_NAME: "Energy Production Total",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_DEVICE_CLASS: SensorDeviceClass.ENERGY,
         CONF_SCALE: 0.001,
-        CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
-        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING
+        CONF_UNIT_OF_MEASUREMENT: UnitOfEnergy.KILO_WATT_HOUR,
+        ATTR_STATE_CLASS: SensorStateClass.TOTAL_INCREASING
     },
     "today": {
         CONF_FRIENDLY_NAME: "Energy Production Daily",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_DEVICE_CLASS: SensorDeviceClass.ENERGY,
         CONF_SCALE: 0.001,
-        CONF_UNIT_OF_MEASUREMENT: ENERGY_KILO_WATT_HOUR,
-        ATTR_STATE_CLASS: STATE_CLASS_TOTAL_INCREASING
+        CONF_UNIT_OF_MEASUREMENT: UnitOfEnergy.KILO_WATT_HOUR,
+        ATTR_STATE_CLASS: SensorStateClass.TOTAL_INCREASING
 },
     "spot_ac_power": {
         CONF_FRIENDLY_NAME: "AC Power",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_POWER,
+        CONF_DEVICE_CLASS: SensorDeviceClass.POWER,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: POWER_WATT,
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        CONF_UNIT_OF_MEASUREMENT: UnitOfPower.WATT,
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
 },
     "spot_ac_voltage": {
         CONF_FRIENDLY_NAME: "AC Voltage",
@@ -77,7 +72,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "V",
         CONF_ROUND: 2,
         CONF_FORMAT: ".02f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_ac_current": {
         CONF_FRIENDLY_NAME: "AC Current",
@@ -86,21 +81,21 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "A",
         CONF_ROUND: 3,
         CONF_FORMAT: ".03f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_dc_power1": {
         CONF_FRIENDLY_NAME: "DC Power 1",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_POWER,
+        CONF_DEVICE_CLASS: SensorDeviceClass.POWER,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: POWER_WATT,
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        CONF_UNIT_OF_MEASUREMENT: UnitOfPower.WATT,
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_dc_power2": {
         CONF_FRIENDLY_NAME: "DC Power 2",
-        CONF_DEVICE_CLASS: DEVICE_CLASS_POWER,
+        CONF_DEVICE_CLASS: SensorDeviceClass.POWER,
         CONF_SCALE: 1,
-        CONF_UNIT_OF_MEASUREMENT: POWER_WATT,
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        CONF_UNIT_OF_MEASUREMENT: UnitOfPower.WATT,
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_dc_voltage1": {
         CONF_FRIENDLY_NAME: "DC Voltage 1",
@@ -109,7 +104,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "V",
         CONF_ROUND: 2,
         CONF_FORMAT: ".02f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_dc_voltage2": {
         CONF_FRIENDLY_NAME: "DC Voltage 2",
@@ -118,7 +113,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "V",
         CONF_ROUND: 2,
         CONF_FORMAT: ".02f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_dc_current1": {
         CONF_FRIENDLY_NAME: "DC Current 1",
@@ -127,7 +122,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "A",
         CONF_ROUND: 3,
         CONF_FORMAT: ".03f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "spot_dc_current2": {
         CONF_FRIENDLY_NAME: "DC Current 2",
@@ -136,7 +131,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "A",
         CONF_ROUND: 3,
         CONF_FORMAT: ".03f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "grid_frequency": {
         CONF_FRIENDLY_NAME: "Grid Frequency",
@@ -145,7 +140,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "Hz",
         CONF_ROUND: 2,
         CONF_FORMAT: ".02f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     },
     "inverter_status": {
         CONF_FRIENDLY_NAME: "Inverter Status",
@@ -168,7 +163,7 @@ SENSOR_TYPES = {
         CONF_UNIT_OF_MEASUREMENT: "°C",
         CONF_ROUND: 2,
         CONF_FORMAT: ".02f",
-        ATTR_STATE_CLASS: STATE_CLASS_MEASUREMENT
+        ATTR_STATE_CLASS: SensorStateClass.MEASUREMENT
     }
 }
 

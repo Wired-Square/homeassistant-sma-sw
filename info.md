@@ -26,7 +26,7 @@ The process should be repeated for each inverter on the network. Subsequent inte
 
 ## Credits
 
-This project was generated from [@Wired-Square](https://github.com/Wired-Square)'s [Home Assistant Custom SMA Speedwire code](https://github.com/Wired-Square/homeassistant-sma-sw) repository.
+This HACS integration was created from [@Wired-Square](https://github.com/Wired-Square)'s [Home Assistant Custom SMA Speedwire code](https://github.com/Wired-Square/homeassistant-sma-sw) repository and has custom changes to make it ready for HACS and for the HA version 2024.1.6.
 
-Full credits to [@Wired-Square](https://github.com/Wired-Square).
+Full credits to original authors [@Wired-Square](https://github.com/Wired-Square).
 and [@garthberry](https://github.com/garthberry).

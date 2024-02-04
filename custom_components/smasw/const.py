@@ -1,6 +1,6 @@
 """Constants for the SMA Speedwire integration."""
 
-from homeassistant.const import ENERGY_WATT_HOUR, POWER_WATT, ELECTRIC_POTENTIAL_VOLT, ELECTRIC_CURRENT_AMPERE
+from homeassistant.const import UnitOfEnergy, UnitOfPower, UnitOfElectricPotential, UnitOfElectricCurrent
 
 DOMAIN = "smasw"
 DEFAULT_NAME = "SunnyBoy Inverter Speedwire"

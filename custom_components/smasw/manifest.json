@@ -2,8 +2,8 @@
   "domain": "smasw",
   "name": "SunnyBoy Inverter Speedwire",
   "config_flow": true,
-  "documentation": "https://github.com/Wired-Square/homeassistant-sma-sw",
-  "version": "0.0.1",
+  "documentation": "https://github.com/Marck/hass-sma-sw",
+  "version": "0.0.2",
   "requirements": [
     "sma-query-sw"
   ],
@@ -13,6 +13,7 @@
   "dependencies": [],
   "codeowners": [
     "@garthberry",
-    "@Wired-Square"
+    "@Wired-Square",
+    "@Marck"
   ]
 }
