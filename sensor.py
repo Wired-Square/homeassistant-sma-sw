@@ -188,7 +188,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     for (entity_attribute, entity_detail) in SENSOR_TYPES.items():
         inverter.setdefault("data", {})[entity_attribute] = 0
 
-    await coordinator.async_config_entry_first_refresh()
+    await coordinator.async_refresh()
 
     for (entity_attribute, entity_detail) in SENSOR_TYPES.items():
         sensors.append(SMASWSensor(coordinator, inverter, entity_attribute, entity_detail))
